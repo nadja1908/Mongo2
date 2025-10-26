@@ -1,0 +1,19 @@
+{
+  "name": "bgg-mongodb-analytics",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "BGG dataset analytics with MongoDB (Node.js, ESM)",
+  "main": "src/index.js",
+  "scripts": {
+    "etl": "node src/etl/build-games.js && node src/etl/build-mechanic-stats.js && node src/etl/build-designer-publisher-stats.js && node src/etl/build-theme-count-rank.js && node src/etl/build-rank-cache.js",
+    "baseline": "node src/queries/Q1.baseline.js && node src/queries/Q2.baseline.js && node src/queries/Q3.baseline.js && node src/queries/Q4.baseline.js && node src/queries/Q5.baseline.js",
+    "optimized": "node src/indexes/create-optimized-indexes.js && npm run etl && node src/queries/Q1.optimized.js && node src/queries/Q2.optimized.js && node src/queries/Q3.optimized.js && node src/queries/Q4.optimized.js && node src/queries/Q5.optimized.js",
+    "report": "node src/report/generate-report.js",
+    "full": "node src/run/full-run.js"
+  },
+  "dependencies": {
+    "mongodb": "^5.7.0",
+    "dotenv": "^16.4.0",
+    "csv-parse": "^5.4.0"
+  }
+}

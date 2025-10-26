@@ -1,0 +1,2 @@
+Nakon pokretanja docker compose up, moguce je sve podatake ubaciti pomocu sledece naredbe: 
+docker exec materijali_mongodb_metabase-mongodb-1 bash import_data.sh

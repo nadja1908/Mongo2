@@ -1,0 +1,15 @@
+node_modules/
+data/
+dump/
+*.bson
+*.bson.*
+*.db
+*.sqlite
+.env
+.env.local
+report/metrics.csv
+report/*.csv
+*.log
+tmp/
+__pycache__/
+.vscode/

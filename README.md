@@ -185,60 +185,6 @@ All timings and run metrics are stored in `report/metrics.csv` and `report/summa
 
 Cleaning rationale: the goal before analytics was to have stable shapes (numbers or nulls, arrays for multi-valued fields) so aggregation pipelines avoid per-document type checks and unexpected nulls.
 
-## Baseline queries (what they do)
-Each baseline query is implemented in `src/queries/*.baseline.js`. High-level tasks:
-
-- Q1 — mechanics with average rating > 8: group by mechanic, count games and average rating.
-- Q2 — games with most themes: compute `themesCount = size(themes)` and sort by `themesCount` then `avgRating`.
-- Q3 — designer–publisher pairs: pairwise join (unwind designers, unwind publishers), group by pair, sum games and ratings.
-- Q4 — per-year best games: group by `year`, pick top by `avgRating` (and popularity)
-- Q5 — quality vs popularity top lists: global sorts by `bayesAvg` (quality) and by `popularity.numOwned` (popularity)
-
-Baseline timings (worst-case / max across runs)
-See `report/summary.md` for full details. Key worst-case numbers generated in the run:
-
-| Query | Baseline worst (max ms) |
-|---|---:|
-| Q1-mechanics-gt8 | 55.40 ms |
-| Q2-most-themes | 663.88 ms |
-| Q3-designer-publisher | 201.94 ms |
-| Q4-year-averages | 166.87 ms |
-| Q5-quality-popularity | 119.80 ms |
-
-These reflect the baseline pipelines running without the optimized index/helper collection set.
-
-## ETL files (what was added / purpose)
-- `src/etl/import-csvs-stream.js` — streaming importer for raw CSVs (avoids OOM for large files).
-- `src/etl/import-designers-publishers.js` — focused importer for the designers/publishers CSVs that had quoting/format quirks.
-- `src/etl/import-selected-stream.js` — targeted streaming importer used for user_ratings and other very large CSVs.
-- `src/etl/build-games.js` — denormalizer: reads `games_raw`, preloads helper maps (ratings, designers, publishers), constructs `games` documents and bulk upserts them. Also maps many alternate column names.
-- `src/etl/build-mechanic-stats.js` — builds `mechanic_stats` helper collection.
-- `src/etl/build-designer-publisher-stats.js` — ETL to compute pair statistics by scanning `games` and optionally using `designers_raw`/`publishers_raw` maps.
-- `src/etl/build-dp-from-reduced-csv.js` — helper ETL that parses `designers_reduced.csv` and `publishers_reduced.csv` (pivot format) to build `designer_publisher_stats` when raw imports are pivoted.
-- `src/etl/build-yearly-stats.js` — builds `yearly_stats` (best/avg per year).
-- `src/etl/build-rank-cache.js` — builds `rank_cache` for Q5 (cached ranks by quality/popularity).
-
-Note: `build-dp-from-reduced-csv.js` is the CSV-based fallback used to extract designer/publisher pairs when reduced/pivot CSVs were present.
-
-## Optimized queries (what changed / why)
-Optimizations take two forms:
-
-1. Precomputation: build helper collections (`mechanic_stats`, `designer_publisher_stats`, `theme_count_rank`, `yearly_stats`, `rank_cache`) so query-time work is minimal and avoids expensive $unwind/$group over the full `games` collection.
-2. Indexes tuned to pipeline shapes (prefix order chosen to support $match or sort order).
-
-Files: `src/queries/*.optimized.js` contain the optimized variants. They prefer reading helper collections if present and otherwise use index-backed aggregation on `games`.
-
-Optimized timings (worst-case / max across runs)
-| Query | Optimized worst (max ms) |
-|---|---:|
-| Q1-mechanics-gt8 | 13.75 ms |
-| Q2-most-themes | 21.40 ms |
-| Q3-designer-publisher | 137.14 ms |
-| Q4-year-averages | 13.11 ms |
-| Q5-quality-popularity | 40.92 ms |
-
-Speedups vary; see `report/summary.md` for median-based speedup calculations recorded by the harness.
-
 ## Indexes created and their target queries
 All index creation code is in `src/indexes/create-optimized-indexes.js`. Indexes created (names used in experiment):
 

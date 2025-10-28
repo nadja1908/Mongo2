@@ -229,8 +229,8 @@ Below are the embedded screenshots (relative paths). Open them locally or in you
 ![Metabase Q1 screenshot](docs/metabase/Q1.png)
 ![Metabase Q2 screenshot](docs/metabase/Q2.png)
 ![Metabase Q3 screenshot](docs/metabase/Q3.png)
-![Metabase Q4 screenshot](docs/metabase/Q4.png)
-![Metabase Q5 screenshot](docs/metabase/Screenshot%202025-10-28%20001132.png)
+![Metabase Q4 screenshot](docs/metabase/Screenshot%202025-10-28%20001147.png)
+![Metabase Q5 screenshot](docs/metabase/Q5.png)
 
 If you'd like, I can now:
 - push this repository to `https://github.com/nadja1908/Mongo2` (I will attempt to push and report any auth errors),

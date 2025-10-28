@@ -226,11 +226,11 @@ The project includes screenshots of the Metabase saved questions used during the
 
 Below are the embedded screenshots (relative paths). Open them locally or in your editor to inspect the exact Metabase filters and visualizations used when running the experiment.
 
-![Metabase Q1 screenshot](data/Screenshot%202025-10-28%20001159.png)
-![Metabase Q2 screenshot](data/Screenshot%202025-10-28%20001213.png)
-![Metabase Q3 screenshot](data/Screenshot%202025-10-28%20001219.png)
-![Metabase Q4 screenshot](data/Screenshot%202025-10-28%20014812.png)
-![Metabase Q5 screenshot](data/Screenshot%202025-10-28%20015653.png)
+![Metabase Q1 screenshot](docs/metabase/Q1.png)
+![Metabase Q2 screenshot](docs/metabase/Q2.png)
+![Metabase Q3 screenshot](docs/metabase/Q3.png)
+![Metabase Q4 screenshot](docs/metabase/Q4.png)
+![Metabase Q5 screenshot](docs/metabase/Q5.png)
 
 If you'd like, I can now:
 - push this repository to `https://github.com/nadja1908/Mongo2` (I will attempt to push and report any auth errors),

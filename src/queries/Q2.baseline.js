@@ -25,7 +25,7 @@ export async function run(db) {
     }
   ];
 
-  // For richer stats (buckets) run an aggregation with $bucket
+  
   const bucketPipeline = [
     { $project: { themesCount: { $size: { $ifNull: ['$themes', []] } } } },
     { $bucket: { groupBy: '$themesCount', boundaries: [0,6,11,1000], default: 'other', output: { count: { $sum: 1 } } } }

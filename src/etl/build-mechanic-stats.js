@@ -21,13 +21,21 @@ async function build() {
   const db = await getDb();
   const games = db.collection('games');
   const out = db.collection('mechanic_stats');
+  // Ensure we don't leave stale documents from a previous (less-restrictive) run.
+  // If we previously built mechanic_stats without the avgRating filter then
+  // some mechanics may remain in the output even though the new pipeline
+  // intentionally excludes them. Clear the collection before writing.
+  console.log('Clearing existing mechanic_stats collection (to avoid stale docs)...');
+  await out.deleteMany({});
 
-  console.log('Building mechanic_stats (all mechanics present in games)...');
+  console.log('Building mechanic_stats (only games with avgRating > 8)...');
   // Be permissive: datasets may not contain avgRating/bayesAvg for all games (different dumps).
   // Instead, aggregate stats for any game that has a non-empty mechanics array. Use $ifNull
   // to provide safe numeric fallbacks so the aggregation always produces numbers.
   const pipeline = [
+    // Only include games that have mechanics and where avgRating is strictly > 8
     { $match: { mechanics: { $exists: true, $ne: [], $ne: null } } },
+    { $match: { avgRating: { $gt: 8 } } },
     { $unwind: '$mechanics' },
     {
       $group: {

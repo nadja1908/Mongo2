@@ -9,7 +9,10 @@
     "baseline": "node src/queries/Q1.baseline.js && node src/queries/Q2.baseline.js && node src/queries/Q3.baseline.js && node src/queries/Q4.baseline.js && node src/queries/Q5.baseline.js",
     "optimized": "node src/indexes/create-optimized-indexes.js && npm run etl && node src/queries/Q1.optimized.js && node src/queries/Q2.optimized.js && node src/queries/Q3.optimized.js && node src/queries/Q4.optimized.js && node src/queries/Q5.optimized.js",
     "report": "node src/report/generate-report.js",
-    "full": "node src/run/full-run.js"
+    "full": "node src/run/full-run.js",
+    "q1": "node src/queries/Q1.optimized.js",
+    "run-query": "node src/run/run-query.js",
+    "inspect-db": "node src/run/inspect-db.js"
   },
   "dependencies": {
     "mongodb": "^5.7.0",

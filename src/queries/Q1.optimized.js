@@ -7,6 +7,7 @@
  */
 import { getDb, closeDb } from '../lib/db.js';
 import { measure } from '../lib/measure.js';
+import { pathToFileURL } from 'url';
 
 export const pipelineHash = 'sha256:Q1-optimized-v1';
 
@@ -35,7 +36,8 @@ export async function run(db) {
   return { sample, pipelineHash };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Use pathToFileURL so the direct-run check works on Windows (process.argv[1] uses backslashes)
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   (async () => {
     const db = await getDb();
     try {

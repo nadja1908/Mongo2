@@ -219,6 +219,27 @@ If you have large CSVs, prefer the streaming importers or use `mongoimport` insi
 - `report/summary.md` — high-level summary (baseline vs optimized)
 
 ---
+## Metabase saved questions (screenshots)
+
+The project includes screenshots of the Metabase saved questions used during the experiment. They are stored in the `data/` folder. Each image shows a Metabase card (query or visualization) for one of the Q1–Q5 experiment queries.
+
+Below are the embedded screenshots (relative paths). Open them locally or in your editor to inspect the exact Metabase filters and visualizations used when running the experiment.
+
+![Metabase Q1 screenshot](data/Screenshot 2025-10-28 001159.png)
+*Q1 — Most frequent mechanics for games with avgRating > 8 (Metabase card screenshot).* 
+
+![Metabase Q2 screenshot](data/Screenshot 2025-10-28 001213.png)
+*Q2 — Games / themes with largest theme counts (Metabase card screenshot).* 
+
+![Metabase Q3 screenshot](data/Screenshot 2025-10-28 001219.png)
+*Q3 — Designer–publisher pair statistics (Metabase card screenshot).* 
+
+![Metabase Q4 screenshot](data/Screenshot 2025-10-28 014812.png)
+*Q4 — Best games per year (Metabase card screenshot).* 
+
+![Metabase Q5 screenshot](data/Screenshot 2025-10-28 015653.png)
+*Q5 — Quality vs Popularity top lists (Metabase card screenshot).* 
+
 If you'd like, I can now:
 - push this repository to `https://github.com/nadja1908/Mongo2` (I will attempt to push and report any auth errors),
 - or modify README further to include exact pipeline snippets per query and paste them inline.
